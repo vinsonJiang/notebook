@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+        <input id="text" />
+        <button id="send">发送</button>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var socket = new WebSocket("ws://127.0.0.1:8081/ws");
+    // socket.onopen = function(){
+    //     socket.send("发送消息：hello...");
+    // }
+    socket.onmessage = function(event){
+        alert("收到来自服务器的消息：" + event.data);
+    }
+    $("#send").click(function () {
+        socket.send("发送消息：" + $("#text").val());
+    })
+</script>
+</body>
+</html>
