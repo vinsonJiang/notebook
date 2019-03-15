@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
  */
 public class WebSocketIndexPageHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
-    public static final String FILE_PATH = "src/main/resources/netty";
     private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 
     private final String webSocketPath;
@@ -54,7 +53,14 @@ public class WebSocketIndexPageHandler extends SimpleChannelInboundHandler<FullH
         }
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
 
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+        if(filePath.endsWith(".css")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/css; charset=UTF-8");
+        } else if(filePath.endsWith(".js")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/javascript");
+        } else {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+        }
+
         HttpUtil.setContentLength(response, content.readableBytes());
         sendHttpResponse(channelHandlerContext, request, response);
     }
@@ -81,6 +87,11 @@ public class WebSocketIndexPageHandler extends SimpleChannelInboundHandler<FullH
         return protocol + "://" + request.headers().get(HttpHeaderNames.HOST) + path;
     }
 
+    /**
+     * TODO: 不可取，待优化
+     * @param uri
+     * @return
+     */
     private static String sanitizeUri(String uri) {
         try {
             uri = URLDecoder.decode(uri, "UTF-8");

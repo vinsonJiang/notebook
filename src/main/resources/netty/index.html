@@ -2,28 +2,219 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>聊天测试</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="css/chat-style.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 <body>
-<div>
-    <div>
-        <input id="text" />
-        <button id="send">发送</button>
+<div class="container">
+    <div class="chats row" id="chats">
+        <div class="col-md-4">
+            <div class="chatWith" id="1">
+                <div class="header">
+                    <a>昵称</a>
+                </div>
+                <hr/>
+                <div class="container output">
+                    <div class="row singleMessage">
+                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionRight">
+                                <div id="time" class="timeRight">2019-01-01</div>
+                            </div>
+                            <div class="arrowBoxRight">
+                                <div class="message">content</div>
+                            </div>
+                        </div>
+                        <div id="icons" class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsRight">
+                            <img class="img-circle iconssRight" src="img/head-img.jpg">
+                        </div>
+                    </div>
+                    <div class="row singleMessage">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsLeft">
+                            <img class="img-circle iconssLeft" src="img/head-img.jpg">
+                        </div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionLeft">
+                                <div class="timeLeft">2019-01-01</div>
+                            </div>
+                            <div class="arrowBoxLeft">
+                                <div class="message">contentcontentcontentcontentcontentcontentcontent</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row singleMessage">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsLeft">
+                            <img class="img-circle iconssLeft" src="img/head-img.jpg">
+                        </div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionLeft">
+                                <div class="timeLeft">2019-01-01</div>
+                            </div>
+                            <div class="arrowBoxLeft">
+                                <div class="message">contentcontentcontentcontentcontentcontentcontent</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row singleMessage">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsLeft">
+                            <img class="img-circle iconssLeft" src="img/head-img.jpg">
+                        </div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionLeft">
+                                <div class="timeLeft">2019-01-01</div>
+                            </div>
+                            <div class="arrowBoxLeft">
+                                <div class="message">contentcontentcontentcontentcontentcontentcontent</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row singleMessage">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsLeft">
+                            <img class="img-circle iconssLeft" src="img/head-img.jpg">
+                        </div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionLeft">
+                                <div class="timeLeft">2019-01-01</div>
+                            </div>
+                            <div class="arrowBoxLeft">
+                                <div class="message">contentcontentcontentcontentcontentcontentcontent</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr/>
+                <div class="input">
+                    <textarea class="form-control" onkeydown="bindEnter(event)"></textarea>
+                    <button type="button" class="btn btn-default pull-right" onclick="sendMessage(this)">发送
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="float: left; margin-left: -10px">
+        <button type="button" class="btn btn-default pull-right" onclick="createWebSocket()">添加一个客户端</button>
     </div>
 </div>
-
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <script>
-    var socket = new WebSocket("ws://127.0.0.1:8081/ws");
-    // socket.onopen = function(){
-    //     socket.send("发送消息：hello...");
-    // }
-    socket.onmessage = function(event){
-        alert("收到来自服务器的消息：" + event.data);
-    }
-    $("#send").click(function () {
-        socket.send("发送消息：" + $("#text").val());
+
+    var wsUrl = "ws://127.0.0.1:8082/ws";
+    TYPE_1 = 1; // 连接服务器，让服务器分配一个id
+    TYPE_2 = 2; // 发送消息
+
+    var socketMap = {};
+    $(function () {
+        refreshWindows();
+        socketMap[1] = new WebSocket(wsUrl);
+        // createWebSocket();
     })
+
+    function refreshWindows() {
+        target = $(".output");
+        target.scrollTop(target[0].scrollHeight);
+    }
+
+    // 创建一个websocket
+    function createWebSocket() {
+        var socket = new WebSocket(wsUrl);
+        socket.onopen = function(){
+            socket.send("$#LOGIN#$");
+        }
+        socket.onmessage = function(event){
+            data = event.data;
+            if(data.indexOf("$#LOGIN#$") == 0) {
+                id = data.substring(9, data.length);
+                console.log(id);
+                var html = modelPanel.replace("$ID$", id);
+                $("#chats").append(html);
+                socketMap[id] = socket;
+            } else {
+                showMessage(data);
+            }
+        }
+        modelPanel.replace("$ID$", id);
+    }
+
+    function getSocketById(id) {
+    }
+
+    function bindEnter(event, id) {
+
+    }
+    function sendMessage(obj) {
+        newObj = $(obj).parent().parent();
+        // console.log(newObj.html());
+        id = newObj.attr("id");
+        var text = $(newObj).find("textarea").val();
+        if(text == "" || text.length <= 0) {
+            return;
+        }
+        $(newObj).find("textarea").val("");
+        console.log(text);
+        websocket = socketMap["1"];
+        websocket.send(text);
+        // showMessage(1+"|" + "jisdf" + "|" + text);
+    }
+
+    function showMessage(data) {
+        var arr = data.split("|");
+        console.log("id = " + arr[0] + ", data = " + data)
+        var div = '<div class="row singleMessage">' +
+            '                        <div class="col-md-11 col-sm-11 col-xs-11 col-lg-11 text">' +
+            '                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 timePositionRight">' +
+            '                                <div class="timeRight">' + arr[1] + '</div>' +
+            '                            </div>' +
+            '                            <div class="arrowBoxRight">' +
+            '                                <div class="message">' + arr[2] + '</div>' +
+            '                            </div>' +
+            '                        </div>' +
+            '                        <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1  iconsRight">' +
+            '                            <img class="img-circle iconssRight" src="img/head-img.jpg">' +
+            '                        </div>' +
+            '                    </div>';
+        target = $("#" + arr[0]).find(".output");
+        target.append(div);
+        target.scrollTop(target[0].scrollHeight);
+    }
+
+    window.onbeforeunload = function() {
+        websocket.close();
+    };
+
+    var modelPanel = '<div class="col-md-4">' +
+        '            <div class="chatWith" data-id="$ID$">' +
+        '                <div class="header">' +
+        '                    <a>昵称</a>' +
+        '                </div>' +
+        '                <hr/>' +
+        '                <div id="output" class="container output">' +
+        '                </div>' +
+        '                <hr/>' +
+        '                <div class="input">' +
+        '                    <textarea class="form-control" onkeydown="bindEnter(event)"></textarea>' +
+        '                    <button type="button" class="btn btn-default pull-right" onclick="sendMessage(this)">发送' +
+        '                    </button>' +
+        '                </div>' +
+        '            </div>' +
+        '        </div>';
 </script>
+
 </body>
 </html>

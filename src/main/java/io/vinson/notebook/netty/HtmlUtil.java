@@ -26,7 +26,7 @@ public final class HtmlUtil {
             }
             return Unpooled.copiedBuffer(builder.toString(), CharsetUtil.UTF_8);
         } catch (FileNotFoundException e) {
-            return null;
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

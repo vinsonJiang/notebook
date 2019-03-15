@@ -11,10 +11,11 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
-import java.security.cert.CertificateException;
-
 /**
- * @Description:
+ * @Description: 采用netty实现一个websocket聊天
+ *
+ * 项目转移至 netty-chat 项目
+ *
  * @author: jiangweixin
  * @date: 2019/3/12
  */
