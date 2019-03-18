@@ -3,6 +3,8 @@ package io.vinson.notebook.netty;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import org.slf4j.Logger;
@@ -22,7 +24,11 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
     private int count = 0;
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame) throws Exception {
-        if(webSocketFrame instanceof TextWebSocketFrame) {
+        // 判断是否ping消息
+        if (webSocketFrame instanceof PingWebSocketFrame) {
+            channelHandlerContext.channel().write(new PongWebSocketFrame(webSocketFrame.content().retain()));
+            return;
+        } else if(webSocketFrame instanceof TextWebSocketFrame) {
             System.out.println(count++);
             String receive = ((TextWebSocketFrame) webSocketFrame).text();
             NioSocketChannel channel = (NioSocketChannel)channelHandlerContext.channel();
