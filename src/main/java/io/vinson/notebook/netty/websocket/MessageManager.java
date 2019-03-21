@@ -1,4 +1,4 @@
-package io.vinson.notebook.netty;
+package io.vinson.notebook.netty.websocket;
 
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

@@ -1,4 +1,4 @@
-package io.vinson.notebook.netty;
+package io.vinson.notebook.netty.websocket;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

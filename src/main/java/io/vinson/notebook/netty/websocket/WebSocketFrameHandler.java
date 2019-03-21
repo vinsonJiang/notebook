@@ -1,4 +1,4 @@
-package io.vinson.notebook.netty;
+package io.vinson.notebook.netty.websocket;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -19,7 +19,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketFrameHandler.class);
 
-    public static MessageManager messageManager = new MessageManager();
+    public static final MessageManager messageManager = new MessageManager();
 
     private int count = 0;
     @Override

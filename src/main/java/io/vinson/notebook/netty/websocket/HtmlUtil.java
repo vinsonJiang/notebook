@@ -1,4 +1,4 @@
-package io.vinson.notebook.netty;
+package io.vinson.notebook.netty.websocket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
