@@ -1,0 +1,19 @@
+
+# Jetty 的基本架构
+
+jetty是一个servlet引擎，他是一个扩展性强而且非常灵活的应用服务器，他有一个基本的数据模型，这个模型就是
+Handler,所有可以被扩展的组件都可以作为一个handler添加都servlet中，由jetty管理核心handler
+
+## Jetty 基本简介
+
+Jetty中还有一个重要的基础组件，就是Connector,它负责接受客户端的链接请求，并分配一个处理队列去执行。
+
+Jetty中还有一些其他组件，比如JMX，我们可以定义一些MBean把他放到Server中，当server启动时，这些bean就会一起工作
+
+Jetty的核心围绕Server类来进行构建，Server类继承了Handler，关联了Connector和Container，Container时管理Mbean的容器，Jetty的Server的扩展性主要是实现了一系列的Handler并将Handler加到Server中，在Server中提供调用这些Handler的访问规则。
+
+和tomcat类似，jetty的所有组件的生命周期都是基于观察者模式设计的，每个组件都会持有一个观察者集合，当有对应的时间触发时，这些Linstener就会被调用。
+
+## Handler体系结构
+
+Jetty主要是基于Handler来设计的，Hander主要有2中类型，一种是HanderWrapper，它可以将一个Handler委托给另一个类去执行，另一种Hander类型就是HandlerCollection，这个Handler类可以将多个Handler组装在一起，构成一个Handler链，方便我们扩展。
