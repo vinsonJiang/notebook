@@ -5,12 +5,15 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import java.io.File;
+
 /**
  * @Description: jetty启动一个webapp
  * @author: jiangweixin
  * @date: 2019/3/27
  */
 public class JettyServer {
+    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webapp";;
     public static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
     public static final int MAX_CONTEXT = 8192;
     public static final int MAX_THREAD_POOL = 128;
@@ -19,7 +22,7 @@ public class JettyServer {
         Server server = new Server(new QueuedThreadPool(MAX_THREAD_POOL));
         WebAppContext context = new WebAppContext();
         context.setContextPath("/");
-        context.setResourceBase("/webapp");
+        context.setResourceBase(WEB_ROOT);
         context.setDescriptor("/web.xml");
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
         context.setMaxFormContentSize(MAX_CONTEXT);

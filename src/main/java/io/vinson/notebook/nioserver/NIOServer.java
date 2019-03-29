@@ -2,6 +2,7 @@ package io.vinson.notebook.nioserver;
 
 import io.netty.util.CharsetUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -18,9 +19,13 @@ import java.util.Set;
  * Created by JiangWeixin on 2019/3/27.
  */
 public class NIOServer implements Runnable {
+
+    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webapp";;
+
     Selector selector;
     ServerSocketChannel serverSocket;
     ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+
     public NIOServer(int port) throws Exception {
         selector = Selector.open();
         serverSocket = ServerSocketChannel.open();
@@ -61,8 +66,22 @@ public class NIOServer implements Runnable {
     }
 
     private void read(SelectionKey key) throws IOException {
-        System.out.println("写数据");
+        System.out.println("读数据");
         SocketChannel channel = (SocketChannel) key.channel();
+
+        Request request = handleRequest(channel);
+        if(!channel.isOpen()) {
+            return;
+        }
+        Response response = handleResponse(channel, request);
+        response.sendStaticResource();
+    }
+
+    @Deprecated
+    private void readTest(SelectionKey key) throws IOException {
+        SocketChannel channel = (SocketChannel) key.channel();
+
+        System.out.println("读取到数据");
 //        ByteBuffer readBuffer = null;
         /*当客户端channel关闭后，会不断收到read事件，但没有消息，即read方法返回-1
          * 所以这时服务器端也需要关闭channel，避免无限无效的处理*/
@@ -91,6 +110,7 @@ public class NIOServer implements Runnable {
             channel.close();
         }
     }
+
     private void register(SelectionKey key) throws IOException {
         ServerSocketChannel server = (ServerSocketChannel) key.channel();
 
@@ -98,6 +118,23 @@ public class NIOServer implements Runnable {
         channel.configureBlocking(false);
 
         channel.register(selector, SelectionKey.OP_READ);
+    }
+
+
+    private Request handleRequest(SocketChannel channel) {
+        Request request = new Request(channel);
+        try {
+            request.handleContext();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return request;
+    }
+
+    private Response handleResponse(SocketChannel channel, Request request) {
+        Response response = new Response(channel);
+        response.setRequest(request);
+        return response;
     }
 
     public static void main(String[] args) {
