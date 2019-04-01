@@ -1,5 +1,8 @@
 package io.vinson.notebook.nioserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -8,6 +11,7 @@ import java.nio.channels.SocketChannel;
  * Created by JiangWeixin on 2019/3/27.
  */
 public class Request {
+    public static Logger logger = LoggerFactory.getLogger(Request.class);
 
     public static final int BUFFER_SIZE = 1024;
 
@@ -70,7 +74,7 @@ public class Request {
         }
         this.context = stringBuilder.toString();
 
-        System.out.println(this.context);
+        logger.info(this.context);
 
         if (this.context.trim().equals("")) {
             throw new Exception("context is null");
@@ -86,7 +90,7 @@ public class Request {
             if (index2 > index1)
                 this.url = context.substring(index1 + 1, index2);
         }
-        System.out.println("url is:" + this.url);
+        logger.debug("url is:" + this.url);
 //        if(this.url.equals("/")){
 //            this.url="/index.html";
 //        }

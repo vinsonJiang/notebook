@@ -1,5 +1,8 @@
 package io.vinson.notebook.nioserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -10,6 +13,7 @@ import java.text.MessageFormat;
  * Created by JiangWeixin on 2019/3/27.
  */
 public class Response {
+    public static Logger logger = LoggerFactory.getLogger(Response.class);
 
     public static final int BUFFER_SIZE = 1024;
     /** http协议响应格式 */
@@ -50,7 +54,7 @@ public class Response {
                 uri = "/index.html";
             }
             File file = new File(NIOServer.WEB_ROOT, uri);
-            System.out.println(file.getAbsolutePath());
+            logger.debug(file.getAbsolutePath());
             if (file.exists()) {
                 String responseBody = MessageFormat.format(RESPONSE_CONTENT, "200 OK", file.length(), "");
                 byteBuffer.put(responseBody.getBytes());

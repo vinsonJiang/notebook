@@ -1,6 +1,8 @@
 package io.vinson.notebook.nioserver;
 
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.util.Set;
  * Created by JiangWeixin on 2019/3/27.
  */
 public class NIOServer implements Runnable {
+
+    public static Logger logger = LoggerFactory.getLogger(NIOServer.class);
 
     public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webapp";;
 
@@ -66,7 +70,7 @@ public class NIOServer implements Runnable {
     }
 
     private void read(SelectionKey key) throws IOException {
-        System.out.println("读数据");
+        logger.info("读取到数据");
         SocketChannel channel = (SocketChannel) key.channel();
 
         Request request = handleRequest(channel);
@@ -81,7 +85,7 @@ public class NIOServer implements Runnable {
     private void readTest(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
 
-        System.out.println("读取到数据");
+        logger.info("读取到数据");
 //        ByteBuffer readBuffer = null;
         /*当客户端channel关闭后，会不断收到read事件，但没有消息，即read方法返回-1
          * 所以这时服务器端也需要关闭channel，避免无限无效的处理*/
@@ -142,6 +146,7 @@ public class NIOServer implements Runnable {
             NIOServer server = new NIOServer(90);
             Thread thread = new Thread(server);
             thread.start();
+            logger.info("项目启动，url:" + "http://127.0.0.1:" + 90 + '/');
         } catch (Exception e) {
             e.printStackTrace();
         }
