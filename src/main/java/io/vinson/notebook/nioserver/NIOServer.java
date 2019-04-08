@@ -87,9 +87,7 @@ public class NIOServer implements Runnable {
 
         logger.info("读取到数据");
 //        ByteBuffer readBuffer = null;
-        /*当客户端channel关闭后，会不断收到read事件，但没有消息，即read方法返回-1
-         * 所以这时服务器端也需要关闭channel，避免无限无效的处理*/
-        int count = channel.read(readBuffer);
+         int count = channel.read(readBuffer);
 
         if (count > 0) {
             //一定需要调用flip函数，否则读取错误数据
