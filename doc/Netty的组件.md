@@ -12,8 +12,9 @@ Netty是一个基于NIO实现的异步、事件驱动的网络应用框架，Net
 ### Channel
 基本的 I/O 操作（bind()、connect()、read()和 write()）依赖于底层网络传输所提
 供的原语。在基于 Java 的网络编程中，其基本的构造是 class Socket。Netty 的 Channel 接
-口所提供的 API，大大地降低了直接使用 Socket 类的复杂性。此外，Channel 也是拥有许多
-预定义的、专门化实现的广泛类层次结构的根，下面是一个简短的部分清单：
+口所提供的 API，大大地降低了直接使用 Socket 类的复杂性。
+对一般用户而言，不需要关心底层实现细节和工作原理，只需要指定具体使用哪种Channel，用以连接IO设备（socket）的纽带，提供与IO设备异步I/O操作的支持（如读、写、连接和绑定）。
+此外，Channel 也是拥有许多预定义的、专门化实现的广泛类层次结构的根，下面是一个简短的部分清单：
 - EmbeddedChannel；
 - LocalServerChannel；
 - NioDatagramChannel；
@@ -36,8 +37,10 @@ EventLoop 定义了 Netty 的核心抽象，用于处理连接的生命周期中
 ### ChannelHandler
 
 ChannelHandler是主要面向开发人员的组件的核心接口，它充当了所有处理入站和出站数据的应用程序逻辑的容器。
+可以通过实现ChannelHandler接口添加到ChannelPipeline来实现消息数据的处理逻辑。
 
 
 ### ChannelPipeline
 
-ChannelPipeline接口提供了ChannelHandler链的容器，并定义了用于该链上春波入站和出站数据流的api。
+ChannelPipeline接口提供了ChannelHandler链的容器，并定义了用于该链上传输入站和出站数据流的api。
+它就像一条管道，数据从管道的一端流向另一端，管道中有一系列的ChannelHandler链，数据通过上一个ChannelHandler处理后传给下一个ChannelHandler。
