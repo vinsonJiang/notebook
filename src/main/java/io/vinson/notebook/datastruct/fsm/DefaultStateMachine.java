@@ -108,6 +108,14 @@ public class DefaultStateMachine<E, S extends State<E>> implements StateMachine<
 
     @Override
 	public boolean handleMessage(Telegram telegram) {
-		return false;
+        if (currentState != null && currentState.onMessage(owner, telegram)) {
+            return true;
+        }
+
+        if (globalState != null && globalState.onMessage(owner, telegram)) {
+            return true;
+        }
+
+        return false;
 	}
 }
