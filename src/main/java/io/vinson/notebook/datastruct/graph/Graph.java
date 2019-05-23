@@ -1,8 +1,8 @@
 package io.vinson.notebook.datastruct.graph;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: jiangweixin
@@ -14,10 +14,11 @@ public class Graph {
     public static final int INFINITY = Integer.MAX_VALUE / 2;
 
     static class Vertex {
-        public Set<Integer> neighbours;
+        /** key：边，value：权重 */
+        public Map<Integer, Integer> neighbours;
 
         public Vertex(){
-            neighbours = new HashSet<>();
+            neighbours = new HashMap<>();
         }
     }
 
@@ -35,9 +36,9 @@ public class Graph {
      * @param src
      * @param dest
      */
-    public void addEdge(int src, int dest){
+    public void addEdge(int src, int dest, int weight){
         Vertex s = vertices[src];
-        s.neighbours.add(dest);
+        s.neighbours.put(dest, weight);
     }
 
     /**
@@ -45,22 +46,44 @@ public class Graph {
      * @param src
      * @param dest
      */
-    public void addEdge(int src, List<Integer> dest){
+    public void addEdge(int src, List<Integer> dest, List<Integer> weight){
         Vertex s = vertices[src];
-        s.neighbours.addAll(dest);
+        for(int i = 0; i < dest.size(); i++) {
+            s.neighbours.put(dest.get(i), weight.get(i));
+        }
     }
 
+    /**
+     * map方式添加多条边
+     * @param src
+     * @param neighbours
+     */
+    public void addEdge(int src, Map<Integer, Integer> neighbours){
+        Vertex s = vertices[src];
+        s.neighbours.putAll(neighbours);
+    }
+
+    /**
+     * @param vex
+     */
     // 删除指定顶点相关的所有边
-    public void removeEdge(int vex) {
+    public void removeEdge(Integer vex) {
         for(int i = 0; i < vertices.length; i++) {
             vertices[i].neighbours.remove(vex);
         }
         vertices[vex].neighbours.clear();
     }
+
+    public void removeEdge(Integer start, Integer end) {
+        vertices[start].neighbours.remove(end);
+        vertices[end].neighbours.remove(start);
+    }
     // 删除指定顶点集合相关的所有边
     public void removeEdge(List<Integer> vexs) {
         for(int i = 0; i < vertices.length; i++) {
-            vertices[i].neighbours.removeAll(vexs);
+            for (Integer vex : vexs) {
+                vertices[i].neighbours.remove(vex);
+            }
         }
         for(Integer vex : vexs) {
             vertices[vex].neighbours.clear();
@@ -76,12 +99,15 @@ public class Graph {
     }
 
     /**
-     * TODO: 待完善
      * 深复制
      * @return
      */
     public Graph deepClone() {
-        return this;
+        Graph temp = new Graph(this.getVexNum());
+        for(int i = 0; i < temp.getVexNum(); i++) {
+            temp.addEdge(i, getVertex(i).neighbours);
+        }
+        return temp;
     }
 
 }

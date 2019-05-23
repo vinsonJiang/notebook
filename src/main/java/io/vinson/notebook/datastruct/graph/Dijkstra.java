@@ -1,8 +1,12 @@
 package io.vinson.notebook.datastruct.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
+ * 迪杰斯特算法寻找最短路径
  * @author: jiangweixin
  * @date: 2019/5/14
  */
@@ -61,8 +65,8 @@ public class Dijkstra {
             for(int j = 0; j < matrix[i].length; j++) {
                 matrix[i][j] = (i == j) ? 0 : Graph.INFINITY;
             }
-            for(Integer x : graph.getVertex(i).neighbours) {
-                matrix[i][x] = 1;
+            for(Map.Entry<Integer, Integer> entry : graph.getVertex(i).neighbours.entrySet()) {
+                matrix[i][entry.getKey()] = entry.getValue();
             }
         }
         return matrix;
@@ -71,30 +75,30 @@ public class Dijkstra {
     public static void main(String[] args) {
         Graph graph = new Graph(19);
 
-        graph.addEdge(0, Arrays.asList(3,5,6));
-        graph.addEdge(1, Arrays.asList(3,4,7));
-        graph.addEdge(2, Arrays.asList(4,5,8));
-        graph.addEdge(3, Arrays.asList(0,1,15));
-        graph.addEdge(4, Arrays.asList(1,2,16));
-        graph.addEdge(5, Arrays.asList(0,2,17));
-        graph.addEdge(6, Arrays.asList(0,9));
-        graph.addEdge(7, Arrays.asList(1,10));
-        graph.addEdge(8, Arrays.asList(2,11));
-        graph.addEdge(9, Arrays.asList(6,12,14));
-        graph.addEdge(10, Arrays.asList(7,12,13));
-        graph.addEdge(11, Arrays.asList(8,13,14));
-        graph.addEdge(12, Arrays.asList(9,10,15,18));
-        graph.addEdge(13, Arrays.asList(10,11,16,18));
-        graph.addEdge(14, Arrays.asList(9,11,17,18));
-        graph.addEdge(15, Arrays.asList(3,12));
-        graph.addEdge(16, Arrays.asList(4,13));
-        graph.addEdge(17, Arrays.asList(5,14));
-        graph.addEdge(18, Arrays.asList(12,13,14));
+        graph.addEdge(0, Arrays.asList(3,5,6), Arrays.asList(3,1,1));
+        graph.addEdge(1, Arrays.asList(3,4,7), Arrays.asList(3,1,1));
+        graph.addEdge(2, Arrays.asList(4,5,8), Arrays.asList(3,1,1));
+        graph.addEdge(3, Arrays.asList(0,1,15), Arrays.asList(3,1,1));
+        graph.addEdge(4, Arrays.asList(1,2,16), Arrays.asList(3,1,1));
+        graph.addEdge(5, Arrays.asList(0,2,17), Arrays.asList(3,1,1));
+        graph.addEdge(6, Arrays.asList(0,9), Arrays.asList(1,1));
+        graph.addEdge(7, Arrays.asList(1,10), Arrays.asList(1,1));
+        graph.addEdge(8, Arrays.asList(2,11), Arrays.asList(1,1));
+        graph.addEdge(9, Arrays.asList(6,12,14), Arrays.asList(1,1,1));
+        graph.addEdge(10, Arrays.asList(7,12,13), Arrays.asList(1,1,1));
+        graph.addEdge(11, Arrays.asList(8,13,14), Arrays.asList(1,1,1));
+        graph.addEdge(12, Arrays.asList(9,10,15,18), Arrays.asList(1,1,1,1));
+        graph.addEdge(13, Arrays.asList(10,11,16,18), Arrays.asList(1,1,1,1));
+        graph.addEdge(14, Arrays.asList(9,11,17,18), Arrays.asList(1,1,1,1));
+        graph.addEdge(15, Arrays.asList(3,12), Arrays.asList(1,1));
+        graph.addEdge(16, Arrays.asList(4,13), Arrays.asList(1,1));
+        graph.addEdge(17, Arrays.asList(5,14), Arrays.asList(1,1));
+        graph.addEdge(18, Arrays.asList(12,13,14), Arrays.asList(1,1,1));
 
-        graph.removeEdge(1);
-        graph.removeEdge(2);
+//        graph.removeEdge(1);
+//        graph.removeEdge(2);
 
-        List<Integer> path = Dijkstra.calculate(graph, 0, 0);
+        List<Integer> path = Dijkstra.calculate(graph, 10, 3);
 
         System.out.println(path);
     }
